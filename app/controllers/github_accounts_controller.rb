@@ -21,15 +21,16 @@ class GithubAccountsController < ApplicationController
 
   # POST /github_accounts or /github_accounts.json
   def create
-    @github_account = GithubAccount.new(github_account_params)
+    result = GithubAccountCreator.new(github_account_params).call
+    @github_account = result.data.present? ? result.data : GithubAccount.new
 
     respond_to do |format|
-      if @github_account.save
+      if result.success?
         format.html { redirect_to @github_account, notice: "Github account was successfully created." }
         format.json { render :show, status: :created, location: @github_account }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @github_account.errors, status: :unprocessable_entity }
+        format.json { render json: result.errors, status: :unprocessable_entity }
       end
     end
   end
