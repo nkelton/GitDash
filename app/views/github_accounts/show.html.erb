@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Username:</strong>
+  <%= @github_account.username %>
+</p>
+
+<p>
+  <strong>Token:</strong>
+  <%= @github_account.token %>
+</p>
+
+<p>
+  <strong>Metadata:</strong>
+  <%= @github_account.metadata %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @github_account.user_id %>
+</p>
+
+<%= link_to 'Edit', edit_github_account_path(@github_account) %> |
+<%= link_to 'Back', github_accounts_path %>
