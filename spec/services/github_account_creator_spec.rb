@@ -5,7 +5,6 @@ RSpec.describe GithubAccountCreator do
   let(:user) { create(:user) }
   let(:params) do
     {
-      username: username,
       token: token,
       user_id: user.id
     }
@@ -14,23 +13,45 @@ RSpec.describe GithubAccountCreator do
 
   describe '.call' do
     context 'when params are valid' do
-      let(:username) { 'Bob Smith' }
+      before do
+        allow(service).to receive(:valid_token?).and_return(true)
+      end
+
       it 'should create a github account and associate it with the correct user' do
         result = nil
         expect {
           result = service.call }.to change { GithubAccount.count }.by(1).and change { user.reload.github_account }.from(nil)
         expect(result.status).to eq(BaseService::SUCCESS)
+        expect(result.data).to be_a(GithubAccount)
       end
     end
     context 'when params are invalid' do
-      let(:username) { nil }
+      let(:token) { nil }
       it 'should return failure' do
-        result = service.call
+        result = nil
+
+        expect {
+          result = service.call
+        }.to_not change(GithubAccount, :count)
+        expect(result.data).to be_nil
+        expect(result.status).to eq(BaseService::FAILURE)
+      end
+    end
+    context 'when token is invalid' do
+      before do
+        allow(service).to receive(:valid_token?).and_return(false)
+      end
+      it 'should return failure' do
+        result = nil
+
+        expect {
+          result = service.call
+        }.to_not change(GithubAccount, :count)
+        expect(result.data).to be_nil
         expect(result.status).to eq(BaseService::FAILURE)
       end
     end
     context 'when save fails' do
-      let(:username) { 'Bob Smith' }
       let(:error) { 'test error' }
       let(:errors) { [error] }
       let(:github_account) { instance_double(GithubAccount) }
@@ -38,13 +59,18 @@ RSpec.describe GithubAccountCreator do
       before do
         allow(GithubAccount).to receive(:new).and_return(github_account)
         allow(github_account).to receive(:valid?).and_return(true)
-        allow(github_account).to receive(:token?).and_return(true)
+        allow(service).to receive(:valid_token?).and_return(true)
         allow(github_account).to receive(:save).and_return(false)
         allow(github_account).to receive(:errors).and_return(error)
       end
 
       it 'should return failure and add errors' do
-        result = service.call
+        result = nil
+
+        expect {
+          result = service.call
+        }.to_not change(GithubAccount, :count)
+        expect(result.data).to be_nil
         expect(result.status).to eq(BaseService::FAILURE)
         expect(result.errors).to eq(errors)
       end

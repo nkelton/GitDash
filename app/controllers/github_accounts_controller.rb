@@ -22,7 +22,7 @@ class GithubAccountsController < ApplicationController
   # POST /github_accounts or /github_accounts.json
   def create
     result = GithubAccountCreator.new(github_account_params).call
-    @github_account = result.data.present? ? result.data : GithubAccount.new
+    @github_account = result.success? ? result.data : GithubAccount.new
 
     respond_to do |format|
       if result.success?
