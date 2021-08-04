@@ -26,6 +26,9 @@ gem 'factory_bot_rails'
 gem 'faker'
 gem 'octokit', '4.21.0'
 gem 'pry', '~> 0.13.1'
+#Active Jobs
+gem 'sidekiq'
+gem 'redis-namespace'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

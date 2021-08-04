@@ -21,6 +21,8 @@ class GithubAccountCreator < BaseService
       return failure
     end
 
+    GithubRepositoryCreatorJob.perform_later(@github_account)
+
     success(@github_account)
   end
 

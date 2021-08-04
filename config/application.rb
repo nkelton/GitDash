@@ -34,5 +34,10 @@ module GitDash
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Active Jobs
+    config.active_job.queue_adapter = :sidekiq
+    Sidekiq.configure_server { |c| c.redis = { url: ENV['REDIS_URL'] } }
+
   end
 end
