@@ -26,7 +26,7 @@ class GithubAccountsController < ApplicationController
 
     respond_to do |format|
       if result.success?
-        format.html { redirect_to @github_account, notice: "Github account was successfully created." }
+        format.html { redirect_to profile_path(@github_account.user.profile.id), notice: "Github account was successfully created." }
         format.json { render :show, status: :created, location: @github_account }
       else
         format.html { render :new, status: :unprocessable_entity }
