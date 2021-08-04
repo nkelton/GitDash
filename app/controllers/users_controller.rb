@@ -21,10 +21,11 @@ class UsersController < ApplicationController
 
   # POST /users or /users.json
   def create
-    @user = User.new(user_params)
+    result = UserCreator.new(user_params).call
+    @user = result.data
 
     respond_to do |format|
-      if @user.save
+      if result.success?
         format.html { redirect_to new_github_account_path(user_id: @user.id), notice: "User was successfully created." }
         format.json { render :show, status: :created, location: @user }
       else
