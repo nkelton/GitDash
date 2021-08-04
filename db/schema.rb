@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_17_024232) do
+ActiveRecord::Schema.define(version: 2021_08_04_031316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -25,6 +25,26 @@ ActiveRecord::Schema.define(version: 2021_07_17_024232) do
     t.index ["user_id"], name: "index_github_accounts_on_user_id"
   end
 
+  create_table "github_repositories", force: :cascade do |t|
+    t.integer "github_id", null: false
+    t.string "name", null: false
+    t.bigint "github_account_id", null: false
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["github_account_id"], name: "index_github_repositories_on_github_account_id"
+  end
+
+  create_table "repositories", force: :cascade do |t|
+    t.integer "github_id", null: false
+    t.string "name", null: false
+    t.bigint "github_account_id", null: false
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["github_account_id"], name: "index_repositories_on_github_account_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.citext "email", null: false
@@ -34,4 +54,6 @@ ActiveRecord::Schema.define(version: 2021_07_17_024232) do
   end
 
   add_foreign_key "github_accounts", "users"
+  add_foreign_key "github_repositories", "github_accounts"
+  add_foreign_key "repositories", "github_accounts"
 end

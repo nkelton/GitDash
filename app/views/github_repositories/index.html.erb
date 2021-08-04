@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Github Repositories</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @github_repositories.each do |github_repository| %>
+      <tr>
+        <td><%= link_to 'Show', github_repository %></td>
+        <td><%= link_to 'Edit', edit_github_repository_path(github_repository) %></td>
+        <td><%= link_to 'Destroy', github_repository, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Github Repository', new_github_repository_path %>
