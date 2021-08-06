@@ -16,9 +16,9 @@ class GithubAccountCreator < BaseService
       return failure
     end
 
-    unless @github_account.save
-      add_error(@github_account.errors)
-      return failure
+    @github_account.tap do |github_account|
+      github_account.metadata = github_metadata
+      github_account.save!
     end
 
     GithubRepositoryCreatorJob.perform_later(@github_account)
@@ -28,13 +28,19 @@ class GithubAccountCreator < BaseService
 
   private
 
+  def github_metadata
+    client.user.to_hash
+  end
+
+  def client
+    @client ||= Octokit::Client.new(access_token: @github_account.token)
+  end
+
   def valid_token?
-    client = Octokit::Client.new(access_token: @github_account.token)
     begin
       client.login.present?
     rescue StandardError
       false
-    end
   end
 
 end
