@@ -1,0 +1,1 @@
+json.partial! "github_repository_monitoring_configurations/github_repository_monitoring_configuration", github_repository_monitoring_configuration: @github_repository_monitoring_configuration

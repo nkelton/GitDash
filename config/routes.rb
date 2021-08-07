@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  resources :github_repository_monitoring_configurations
   mount Sidekiq::Web => '/sidekiq'
 
   resources :profiles

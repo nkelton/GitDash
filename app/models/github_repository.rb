@@ -1,6 +1,8 @@
 class GithubRepository < ApplicationRecord
   belongs_to :github_account
 
+  has_one :monitoring_configuration, class_name: 'GithubRepositoryMonitoringConfiguration', foreign_key: :github_repository_id
+
   validates :github_id, uniqueness: true
   validates :name, presence: true
 

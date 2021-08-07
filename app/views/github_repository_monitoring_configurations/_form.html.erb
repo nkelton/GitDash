@@ -1,0 +1,17 @@
+<%= form_with(model: github_repository_monitoring_configuration) do |form| %>
+  <% if github_repository_monitoring_configuration.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(github_repository_monitoring_configuration.errors.count, "error") %> prohibited this github_repository_monitoring_configuration from being saved:</h2>
+
+      <ul>
+        <% github_repository_monitoring_configuration.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

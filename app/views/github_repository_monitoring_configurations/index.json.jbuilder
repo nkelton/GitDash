@@ -1,0 +1,1 @@
+json.array! @github_repository_monitoring_configurations, partial: "github_repository_monitoring_configurations/github_repository_monitoring_configuration", as: :github_repository_monitoring_configuration

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_06_160840) do
+ActiveRecord::Schema.define(version: 2021_08_07_054456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -34,6 +34,14 @@ ActiveRecord::Schema.define(version: 2021_08_06_160840) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "monitoring_notifications", default: false, null: false, comment: "Indicates whether notifications are being monitored for this repository\n"
     t.index ["github_account_id"], name: "index_github_repositories_on_github_account_id"
+  end
+
+  create_table "github_repository_monitoring_configurations", force: :cascade do |t|
+    t.bigint "github_repository_id", null: false
+    t.text "notification_types", default: [], array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["github_repository_id"], name: "idx_gh_repository_monitoring_config_on_gh_repository_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -64,5 +72,6 @@ ActiveRecord::Schema.define(version: 2021_08_06_160840) do
 
   add_foreign_key "github_accounts", "users"
   add_foreign_key "github_repositories", "github_accounts"
+  add_foreign_key "github_repository_monitoring_configurations", "github_repositories"
   add_foreign_key "repositories", "github_accounts"
 end
