@@ -37,10 +37,9 @@ class GithubAccountCreator < BaseService
   end
 
   def valid_token?
-    begin
-      client.login.present?
-    rescue StandardError
-      false
+    client.login.present?
+  rescue StandardError
+    false
   end
 
 end
