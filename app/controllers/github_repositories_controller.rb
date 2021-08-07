@@ -36,7 +36,6 @@ class GithubRepositoriesController < ApplicationController
 
   # PATCH/PUT /github_repositories/1 or /github_repositories/1.json
   def update
-    binding.pry
     respond_to do |format|
       if @github_repository.update(github_repository_params)
         format.html { redirect_to @github_repository, notice: "Github repository was successfully updated." }
