@@ -36,6 +36,7 @@ class GithubRepositoriesController < ApplicationController
 
   # PATCH/PUT /github_repositories/1 or /github_repositories/1.json
   def update
+    binding.pry
     respond_to do |format|
       if @github_repository.update(github_repository_params)
         format.html { redirect_to @github_repository, notice: "Github repository was successfully updated." }
@@ -64,6 +65,6 @@ class GithubRepositoriesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def github_repository_params
-      params.fetch(:github_repository, {})
+      params.require(:github_repository).permit(:monitoring_notifications)
     end
 end
