@@ -6,7 +6,7 @@ class GithubRepositoryCreator < BaseService
   end
 
   def call
-    repositories = Octokit::Client.new(access_token: @github_account.token).repositories
+    repositories = retrieve_repositories!
     ActiveRecord::Base.transaction do
       repositories.each do |repo|
         GithubRepository.create!(
@@ -19,6 +19,12 @@ class GithubRepositoryCreator < BaseService
 
       return success(@github_account.reload.github_repositories)
     end
+  end
+
+  private
+
+  def retrieve_repositories!
+    Octokit::Client.new(access_token: @github_account.token).repositories
   end
 
 end
