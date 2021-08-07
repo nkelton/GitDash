@@ -18,3 +18,20 @@
     </ul>
   </div>
 </div>
+
+<div>
+  <div>
+    <h1>Github Repositories</h1>
+  </div>
+  <div>
+    <ul>
+      <% @profile.github_repositories.each do |repo| %>
+        <ul>
+          <li> <%= link_to repo.name, repo.html_url %> </li>
+          <li><%= repo.monitoring_message %> </li>
+          <li> <%= link_to 'Edit Monitoring Settings', edit_github_repository_path(repo) %> </li>
+        </ul>
+      <% end %>
+    </ul>
+  </div>
+</div>
