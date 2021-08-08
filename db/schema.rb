@@ -41,7 +41,6 @@ ActiveRecord::Schema.define(version: 2021_08_08_054319) do
     t.jsonb "metadata", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "monitoring_notifications", default: false, null: false, comment: "Indicates whether notifications are being monitored for this repository\n"
     t.index ["github_account_id"], name: "index_github_repositories_on_github_account_id"
   end
 
