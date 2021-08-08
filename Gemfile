@@ -21,14 +21,19 @@ gem 'jbuilder', '~> 2.7'
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+# Testing
 gem 'factory_bot', '~> 6.1.0'
 gem 'factory_bot_rails'
 gem 'faker'
+#Github
 gem 'octokit', '4.21.0'
+#Debuging
 gem 'pry', '~> 0.13.1'
 #Active Jobs
 gem 'sidekiq'
 gem 'redis-namespace'
+# States
+gem 'aasm'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
