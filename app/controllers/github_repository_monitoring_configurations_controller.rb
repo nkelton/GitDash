@@ -21,15 +21,15 @@ class GithubRepositoryMonitoringConfigurationsController < ApplicationController
 
   # POST /github_repository_monitoring_configurations or /github_repository_monitoring_configurations.json
   def create
-    @github_repository_monitoring_configuration = GithubRepositoryMonitoringConfiguration.new(github_repository_monitoring_configuration_params)
+    result = GithubRepositoryMonitoringConfigurationCreator.new(github_repository_monitoring_configuration_params).call
 
     respond_to do |format|
-      if @github_repository_monitoring_configuration.save
-        format.html { redirect_to @github_repository_monitoring_configuration, notice: "Github repository monitoring configuration was successfully created." }
+      if result.success?
+        format.html { redirect_to result.data, notice: "Github repository monitoring configuration was successfully created." }
         format.json { render :show, status: :created, location: @github_repository_monitoring_configuration }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @github_repository_monitoring_configuration.errors, status: :unprocessable_entity }
+        format.json { render json: result.errors, status: :unprocessable_entity }
       end
     end
   end
