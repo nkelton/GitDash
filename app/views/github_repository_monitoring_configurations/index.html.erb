@@ -13,7 +13,6 @@
     <% @github_repository_monitoring_configurations.each do |github_repository_monitoring_configuration| %>
       <tr>
         <td><%= link_to 'Show', github_repository_monitoring_configuration %></td>
-        <td><%= link_to 'Edit', edit_github_repository_monitoring_configuration_path(github_repository_monitoring_configuration) %></td>
         <td><%= link_to 'Destroy', github_repository_monitoring_configuration, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

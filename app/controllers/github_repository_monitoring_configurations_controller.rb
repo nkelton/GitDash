@@ -18,16 +18,29 @@ class GithubRepositoryMonitoringConfigurationsController < ApplicationController
 
   # GET /github_repository_monitoring_configurations/1/edit
   def edit
+    @github_repository = GithubRepository.find(params[:github_repository_id])
   end
 
   # POST /github_repository_monitoring_configurations or /github_repository_monitoring_configurations.json
   def create
-    result = GithubRepositoryMonitoringConfigurationCreator.new(github_repository_monitoring_configuration_params).call
+    create_params = github_repository_monitoring_configuration_params
+
+    # filter out empty strings
+    create_params.tap do |params|
+      params[:notification_types] = params[:notification_types].reject(&:empty?)
+    end
+
+    result = GithubRepositoryMonitoringConfigurationCreator.new(create_params).call
 
     respond_to do |format|
       if result.success?
-        format.html { redirect_to result.data, notice: "Github repository monitoring configuration was successfully created." }
-        format.json { render :show, status: :created, location: @github_repository_monitoring_configuration }
+        redirect = github_repository_github_repository_monitoring_configurations_path(
+          result.data.github_repository,
+          id: result.data
+        )
+
+        format.html { redirect_to redirect, notice: "Github repository monitoring configuration was successfully created." }
+        format.json { render :show, status: :created, location: result }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: result.errors, status: :unprocessable_entity }
@@ -65,6 +78,6 @@ class GithubRepositoryMonitoringConfigurationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def github_repository_monitoring_configuration_params
-      params.fetch(:github_repository_monitoring_configuration, {})
+      params.require(:github_repository_monitoring_configuration).permit(:github_repository_id, notification_types: [])
     end
 end

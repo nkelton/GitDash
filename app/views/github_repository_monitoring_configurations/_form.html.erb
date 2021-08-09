@@ -11,6 +11,15 @@
     </div>
   <% end %>
 
+  <div class="field">
+    <%= form.label 'Select the type of notifications you want to receive' %>
+    <%= form.select :notification_types, GithubRepositoryMonitoringConfiguration::NOTIFICATION_TYPES, {}, multiple: true %>
+  </div>
+
+  <div class="field">
+    <%= form.hidden_field :github_repository_id, value: params[:github_repository_id] %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

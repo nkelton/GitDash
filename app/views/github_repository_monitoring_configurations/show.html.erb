@@ -1,4 +1,13 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_github_repository_monitoring_configuration_path(@github_repository_monitoring_configuration) %> |
-<%= link_to 'Back', github_repository_monitoring_configurations_path %>
+<div>
+  <h1> Monitoring Configuration for Repository: <%= @github_repository_monitoring_configuration.github_repository.name %>
+</div>
+<div>
+  <h2>Currently Monitoring</h2>
+      <% @github_repository_monitoring_configuration.notification_types.each do |type| %>
+        <p><%= type %></p>
+      <% end %>
+</div>
+
+<%= link_to 'Profile', profile_path(@github_repository_monitoring_configuration.github_account.user.profile) %>
