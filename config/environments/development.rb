@@ -15,8 +15,7 @@ Rails.application.configure do
   config.consider_all_requests_local = true
 
   # Github Webhooks Local Developemnt
-  #TODO: needs to be environmental variable
-  config.hosts << 'eec5620526c3.ngrok.io'
+  config.hosts << ENV['NGROK_HOST']
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.

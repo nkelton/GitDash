@@ -1,7 +1,7 @@
 class GithubHookCreator < BaseService
 
   NAME = 'web'.freeze
-  URL = 'http://eec5620526c3.ngrok.io/github_webhooks/payload'.freeze
+  URL = "http://#{ENV['NGROK_HOST']}/github_webhooks/payload".freeze
 
   def initialize(monitoring_configuration)
     super()

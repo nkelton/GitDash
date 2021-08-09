@@ -16,4 +16,6 @@
 
 ## Working with Github Hooks locally
 [Github Tutorial](https://docs.github.com/en/developers/webhooks-and-events/webhooks/creating-webhooks#exposing-localhost-to-the-internet)
-Or just run `./ngrok http 3000`
+1. Run Tunnel - `./ngrok http 3000`
+2. Copy and paste the host name. It should look something like `17c2efbcd19a.ngrok.io`
+3. Add `NGROK_HOST=#{your_host_name}` to your `.env` file

@@ -74,6 +74,7 @@ GEM
     connection_pool (2.2.5)
     crass (1.0.6)
     diff-lcs (1.4.4)
+    dotenv (2.7.6)
     erubi (1.10.0)
     factory_bot (6.1.0)
       activesupport (>= 5.0.0)
@@ -247,6 +248,7 @@ DEPENDENCIES
   aasm
   bootsnap (>= 1.4.4)
   byebug
+  dotenv
   factory_bot (~> 6.1.0)
   factory_bot_rails
   faker

@@ -34,6 +34,8 @@ gem 'sidekiq'
 gem 'redis-namespace'
 # States
 gem 'aasm'
+# Environmental variables
+gem 'dotenv'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
