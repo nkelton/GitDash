@@ -1,6 +1,6 @@
 class GithubHook < ApplicationRecord
   belongs_to :github_repository_monitoring_configuration
-  has_one :github_repository, through: :github_repository_monitoring_config
+  has_one :github_repository, through: :github_repository_monitoring_configuration
 
   def active?
     metadata['active']

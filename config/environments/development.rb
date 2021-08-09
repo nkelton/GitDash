@@ -14,6 +14,10 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
+  # Github Webhooks Local Developemnt
+  #TODO: needs to be environmental variable
+  config.hosts << 'eec5620526c3.ngrok.io'
+
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
   if Rails.root.join('tmp', 'caching-dev.txt').exist?

@@ -10,5 +10,6 @@ Rails.application.routes.draw do
   resources :github_accounts
   resources :users
   get 'home/index'
+  post 'github_webhooks/payload'
   root to: 'home#index'
 end
