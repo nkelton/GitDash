@@ -13,6 +13,7 @@ class GithubRepositoryMonitoringConfigurationsController < ApplicationController
   # GET /github_repository_monitoring_configurations/new
   def new
     @github_repository_monitoring_configuration = GithubRepositoryMonitoringConfiguration.new
+    @github_repository = GithubRepository.find(params[:github_repository_id])
   end
 
   # GET /github_repository_monitoring_configurations/1/edit

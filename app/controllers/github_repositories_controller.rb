@@ -34,15 +34,18 @@ class GithubRepositoriesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /github_repositories/1 or /github_repositories/1.json
   def update
+    result = GithubRepositoryUpdater.new(@github_repository, github_repository_params).call
+
     respond_to do |format|
-      if @github_repository.update(github_repository_params)
-        format.html { redirect_to @github_repository, notice: "Github repository was successfully updated." }
+      if result.success?
+        redirect = result.data.first ? new_github_repository_github_repository_monitoring_configurations_path(result.data.second) : result.data.second
+        format.html { redirect_to redirect, notice: "Github repository was successfully updated." }
         format.json { render :show, status: :ok, location: @github_repository }
+
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @github_repository.errors, status: :unprocessable_entity }
+        format.json { render json: result.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -64,6 +67,6 @@ class GithubRepositoriesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def github_repository_params
-      params.require(:github_repository).permit(:monitoring_notifications)
+      params.require(:github_repository).permit(:aasm_state)
     end
 end

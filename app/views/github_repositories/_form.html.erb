@@ -12,8 +12,8 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :monitoring_notifications %>
-    <%= form.check_box :monitoring_notifications %>
+    <%= form.label 'Monitor Notifications for this Repository' %>
+    <%= form.check_box :aasm_state, {checked: github_repository.aasm_state == 'active' }, :active, :inactive %>
   </div>
 
   <div class="actions">
