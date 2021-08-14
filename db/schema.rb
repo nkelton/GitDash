@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_14_034941) do
+ActiveRecord::Schema.define(version: 2021_08_14_060002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -63,6 +63,17 @@ ActiveRecord::Schema.define(version: 2021_08_14_034941) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["github_repository_id"], name: "idx_gh_repository_monitoring_config_on_gh_repository_id"
+  end
+
+  create_table "github_webhook_events", force: :cascade do |t|
+    t.string "type", default: "", null: false
+    t.string "action", default: "", null: false
+    t.jsonb "sender", default: {}, null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.bigint "github_hook_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["github_hook_id"], name: "index_github_webhook_events_on_github_hook_id"
   end
 
   create_table "profiles", force: :cascade do |t|
