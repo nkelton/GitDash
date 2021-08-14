@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_08_231225) do
+ActiveRecord::Schema.define(version: 2021_08_14_034941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -32,6 +32,18 @@ ActiveRecord::Schema.define(version: 2021_08_08_231225) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["github_repository_monitoring_configuration_id"], name: "index_gh_hooks_on_gh_monitoring_configuration_id"
+  end
+
+  create_table "github_pull_requsts", force: :cascade do |t|
+    t.string "title", default: "", null: false
+    t.string "github_id", null: false
+    t.text "body", default: "", null: false
+    t.string "state", null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.bigint "github_repository_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["github_repository_id"], name: "index_github_pull_requsts_on_github_repository_id"
   end
 
   create_table "github_repositories", force: :cascade do |t|

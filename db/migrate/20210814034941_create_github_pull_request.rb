@@ -1,0 +1,13 @@
+class CreateGithubPullRequest < ActiveRecord::Migration[6.1]
+  def change
+    create_table :github_pull_requsts do |t|
+      t.string :title, null: false, default: ''
+      t.string :github_id, null: false
+      t.text :body, null: false, default: ''
+      t.string :state, null: false
+      t.jsonb :metadata, null: false, default: {}
+      t.references :github_repository, null: false
+      t.timestamps
+    end
+  end
+end
