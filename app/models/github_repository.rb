@@ -4,7 +4,9 @@ class GithubRepository < ApplicationRecord
   belongs_to :github_account
 
   has_one :monitoring_configuration, class_name: 'GithubRepositoryMonitoringConfiguration', foreign_key: :github_repository_id
+  has_one :github_hook, through: :monitoring_configuration
   has_many :webhook_events, class_name: 'GithubWebhookEvent'
+  has_many :pull_requests, class_name: 'GithubPullRequest'
 
   validates :github_id, uniqueness: true
   validates :name, presence: true

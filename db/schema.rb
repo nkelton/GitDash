@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 2021_08_14_060002) do
     t.index ["github_repository_monitoring_configuration_id"], name: "index_gh_hooks_on_gh_monitoring_configuration_id"
   end
 
-  create_table "github_pull_requsts", force: :cascade do |t|
+  create_table "github_pull_requests", force: :cascade do |t|
     t.string "title", default: "", null: false
     t.string "github_id", null: false
     t.text "body", default: "", null: false
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 2021_08_14_060002) do
     t.bigint "github_repository_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["github_repository_id"], name: "index_github_pull_requsts_on_github_repository_id"
+    t.index ["github_repository_id"], name: "index_github_pull_requests_on_github_repository_id"
   end
 
   create_table "github_repositories", force: :cascade do |t|
@@ -68,7 +68,6 @@ ActiveRecord::Schema.define(version: 2021_08_14_060002) do
   create_table "github_webhook_events", force: :cascade do |t|
     t.string "type", default: "", null: false
     t.string "action", default: "", null: false
-    t.jsonb "sender", default: {}, null: false
     t.jsonb "metadata", default: {}, null: false
     t.bigint "github_hook_id", null: false
     t.datetime "created_at", precision: 6, null: false
