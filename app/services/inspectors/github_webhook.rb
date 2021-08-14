@@ -12,15 +12,19 @@ module Inspectors
     end
 
     def hook?
-      payload.key?(:hook)
+      webhook.key?(:hook)
     end
 
     def pull_request?
-      payload.key?(:pull_request)
+      webhook.key?(:pull_request)
     end
 
     def repository?
-      payload.key?(:repository)
+      webhook.key?(:repository)
+    end
+
+    def sender?
+      webhook.key?(:sender)
     end
 
     def hook
@@ -30,19 +34,19 @@ module Inspectors
     def pull_request
       return @pull_request if defined?(@pull_request)
 
-      @pull_request = Inspectors::GithubPullRequest.new(payload[:pull_request]) if pull_request?
+      @pull_request = Inspectors::GithubPullRequest.new(webhook[:pull_request]) if pull_request?
     end
 
     def repository
       return @repository if defined?(@repository)
 
-      @repository = Inspectors::GithubRepository.new(payload[:repository]) if repository?
+      @repository = Inspectors::GithubRepository.new(webhook[:repository]) if repository?
     end
 
     def sender
       return @sender if defined?(@sender)
 
-      @sender = Inspectors::GithubRepository.new(payload[:sender]) if sender?
+      @sender = Inspectors::GithubSender.new(webhook[:sender]) if sender?
     end
 
   end

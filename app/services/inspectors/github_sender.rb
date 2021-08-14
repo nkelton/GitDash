@@ -21,5 +21,13 @@ module Inspectors
       sender['html_url']
     end
 
+    def to_hash
+      {
+        github_id: id,
+        gitub_login: login,
+        html_url: html_url
+      }
+    end
+
   end
 end
