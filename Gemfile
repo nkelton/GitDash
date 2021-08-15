@@ -36,6 +36,8 @@ gem 'redis-namespace'
 gem 'aasm'
 # Environmental variables
 gem 'dotenv'
+# Pushing notifications
+gem 'rpush'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
