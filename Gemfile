@@ -38,6 +38,8 @@ gem 'aasm'
 gem 'dotenv'
 # Pushing notifications
 gem 'rpush'
+# makes it possible to send push messages to web browsers from Ruby backends makes it possible to send push messages to web browsers from Ruby backends
+gem 'webpush'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
