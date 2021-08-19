@@ -11,5 +11,6 @@ Rails.application.routes.draw do
   resources :users
   get 'home/index'
   post 'github_webhooks/payload'
+  patch '/subscription' => 'subscriptions#update'
   root to: 'home#index'
 end

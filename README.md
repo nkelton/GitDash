@@ -13,6 +13,7 @@
 3. Run Database Migrations - `bundle exec rake db:migrate`
 4. Start server - `bundle exec rails s`
 5. Start sidekiq - `bundle exec sidekiq`
+6. Start rpush - `bundle exec rpush start -f`
 
 ## Working with Github Hooks locally
 [Github Tutorial](https://docs.github.com/en/developers/webhooks-and-events/webhooks/creating-webhooks#exposing-localhost-to-the-internet)

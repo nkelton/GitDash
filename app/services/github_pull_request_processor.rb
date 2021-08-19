@@ -17,11 +17,19 @@ class GithubPullRequestProcessor < BaseService
       webhook_event_result = GithubWebhookEventCreator.new(webhook_event_attrs).call
       raise_error!(webhook_event_result) if webhook_event_result.failure?
     end
-    # TODO: actually send the notification to the user
+    NotificationSender.new(
+      message: message,
+      user: user
+    ).call
+
     success
   end
 
   private
+
+  def message
+    'Test message!'
+  end
 
   def pull_request_attrs
     {
@@ -59,6 +67,10 @@ class GithubPullRequestProcessor < BaseService
 
   def github_repository
     @github_repository ||= GithubRepository.find_by(github_id: repository_inspector.id)
+  end
+
+  def user
+    github_repository.github_account.user
   end
 
   def github_webhook
