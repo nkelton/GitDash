@@ -12,5 +12,8 @@ Rails.application.routes.draw do
   get 'home/index'
   post 'github_webhooks/payload'
   patch '/subscription' => 'subscriptions#update'
+  get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
+  delete 'logout', to: 'sessions#destroy'
   root to: 'home#index'
 end

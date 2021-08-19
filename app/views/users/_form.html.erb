@@ -22,8 +22,13 @@
   </div>
 
   <div class="field">
-    <%= form.label :encrypted_password %>
-    <%= form.text_field :encrypted_password %>
+    <%= form.label :password %>
+    <%= form.password_field :password %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password_confirmation %>
+    <%= form.password_field :password_confirmation %>
   </div>
 
   <div class="actions">

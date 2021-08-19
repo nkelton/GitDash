@@ -84,16 +84,6 @@ ActiveRecord::Schema.define(version: 2021_08_19_160737) do
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
-  create_table "repositories", force: :cascade do |t|
-    t.integer "github_id", null: false
-    t.string "name", null: false
-    t.bigint "github_account_id", null: false
-    t.jsonb "metadata", default: {}
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["github_account_id"], name: "index_repositories_on_github_account_id"
-  end
-
   create_table "rpush_apps", force: :cascade do |t|
     t.string "name", null: false
     t.string "environment"
@@ -166,7 +156,7 @@ ActiveRecord::Schema.define(version: 2021_08_19_160737) do
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.citext "email", null: false
-    t.string "encrypted_password", null: false
+    t.string "password_digest", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -174,5 +164,4 @@ ActiveRecord::Schema.define(version: 2021_08_19_160737) do
   add_foreign_key "github_accounts", "users"
   add_foreign_key "github_repositories", "github_accounts"
   add_foreign_key "github_repository_monitoring_configurations", "github_repositories"
-  add_foreign_key "repositories", "github_accounts"
 end

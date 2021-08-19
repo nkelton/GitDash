@@ -1,5 +1,5 @@
 class GithubRepositoryMonitoringConfigurationsController < ApplicationController
-  before_action :set_github_repository_monitoring_configuration, only: %i[ show edit update destroy ]
+  load_and_authorize_resource
 
   # GET /github_repository_monitoring_configurations or /github_repository_monitoring_configurations.json
   def index

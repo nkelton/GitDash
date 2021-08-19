@@ -1,5 +1,5 @@
 class GithubAccountsController < ApplicationController
-  before_action :set_github_account, only: %i[ show edit update destroy ]
+  load_and_authorize_resource
 
   # GET /github_accounts or /github_accounts.json
   def index
