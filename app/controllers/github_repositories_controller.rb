@@ -1,5 +1,5 @@
 class GithubRepositoriesController < ApplicationController
-  before_action :set_github_repository, only: %i[ show edit update destroy ]
+  load_and_authorize_resource
 
   # GET /github_repositories or /github_repositories.json
   def index

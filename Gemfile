@@ -40,6 +40,8 @@ gem 'dotenv'
 gem 'rpush'
 # makes it possible to send push messages to web browsers from Ruby backends
 gem 'webpush'
+# authorization
+gem 'cancancan'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
