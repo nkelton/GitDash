@@ -1,0 +1,6 @@
+{
+  "name": "GitDash - Notifications for GitHub",
+  "short_name": "GitDash",
+  "start_url": "/",
+  "display": "standalone"
+}
