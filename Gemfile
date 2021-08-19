@@ -20,7 +20,7 @@ gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 # Testing
 gem 'factory_bot', '~> 6.1.0'
 gem 'factory_bot_rails'
@@ -38,7 +38,7 @@ gem 'aasm'
 gem 'dotenv'
 # Pushing notifications
 gem 'rpush'
-# makes it possible to send push messages to web browsers from Ruby backends makes it possible to send push messages to web browsers from Ruby backends
+# makes it possible to send push messages to web browsers from Ruby backends
 gem 'webpush'
 
 # Use Active Storage variant
