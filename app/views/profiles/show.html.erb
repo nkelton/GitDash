@@ -1,3 +1,5 @@
+<%= javascript_pack_tag 'profiles' %>
+
 <p id="notice"><%= notice %></p>
 
 <div>
@@ -15,7 +17,8 @@
       <li> Company: <%= @profile.github_account.company %>
       <li> Bio: <%= @profile.github_account.bio %>
       <li> <%= link_to 'Edit Profile', edit_profile_path(@profile) %> </li>
-    </ul>
+      <li> <%= link_to 'Log Out', logout_path, method: :delete %> </li>
+     </ul>
   </div>
 </div>
 

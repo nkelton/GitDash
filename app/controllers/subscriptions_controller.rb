@@ -7,9 +7,8 @@ class SubscriptionsController < ApplicationController
 
   private
 
-  # HARD CODED FOR TESTING.
   def profile
-    @profile ||= Profile.find(7)
+    @profile ||= current_user.profile
   end
 
   def subscription_params
