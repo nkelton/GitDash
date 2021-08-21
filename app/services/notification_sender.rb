@@ -24,7 +24,7 @@ class NotificationSender < BaseService
 
   def data
     {
-      message: message
+      message: message.to_json
     }
   end
 

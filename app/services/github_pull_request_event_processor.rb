@@ -31,7 +31,10 @@ class GithubPullRequestEventProcessor < BaseService
   private
 
   def message
-    'Test message!'
+    {
+      message: "Pull Request #{pull_request_inspector.state} by #{webhook_inspector.sender.login}",
+      link: pull_request_inspector.html_url
+    }
   end
 
   def pull_request_attrs

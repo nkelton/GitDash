@@ -1,23 +1,15 @@
 self.addEventListener("push", function(event) {
-  console.log('pushing!');
-
-  var title = (event.data && event.data.text()) || "Yay a message";
+  const data = (event.data && event.data.json()) || 'Event with no data!';
 
   event.waitUntil(
-    self.registration.showNotification(title, {
-      body: "We have received a push message",
-      tag:  "push-simple-demo-notification-tag"
+    self.registration.showNotification(data['message'], {
+      body: data['link'],
+      tag:  "gitdash-push-message"
     })
   );
 });
-// testing...
-self.addEventListener('install', function(event) {
-  console.log('Service Worker installing.');
-});
 
-self.addEventListener('activate', function(event) {
-  console.log('Service Worker activated.');
-});
-self.addEventListener('fetch', function(event) {
-  console.log('Service Worker fetching.');
+self.addEventListener('notificationclick', function (event) {
+  event.notification.close();
+  clients.openWindow(new URL(event.notification.body));
 });
