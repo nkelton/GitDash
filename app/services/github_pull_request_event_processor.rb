@@ -18,7 +18,12 @@ class GithubPullRequestEventProcessor < BaseService
       raise_error!(github_hook_event_result) if github_hook_event_result.failure?
     end
 
-    NotificationSenderJob.perform_later(message: message, user: user)
+    NotificationSenderJob.perform_later(
+      {
+        message: message,
+        user: user
+      }
+    )
 
     success
   end

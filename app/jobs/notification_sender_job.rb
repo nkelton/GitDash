@@ -1,10 +1,10 @@
 class NotificationSenderJob < ApplicationJob
   queue_as :default
 
-  def perform(message, user)
+  def perform(data)
     NotificationSender.new(
-      message: message,
-      user: user
+      message: data[:message],
+      user: data[:user]
     ).call
   end
 end
