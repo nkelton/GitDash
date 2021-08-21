@@ -2,7 +2,6 @@
 class SubscriptionsController < ApplicationController
 
   def update
-    binding.pry
     profile.update!(web_push_subscription: subscription_params)
   end
 
