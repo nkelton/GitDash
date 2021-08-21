@@ -1,9 +1,8 @@
 class GithubAccount < ApplicationRecord
-
   belongs_to :user
   has_many :github_repositories
   has_many :github_hooks, through: :github_repositories
-  has_many :github_hook_events, through: :github_repositories
+  has_many :events, through: :github_hooks
 
   validates :user_id, uniqueness: true
   validates :token, presence: true
