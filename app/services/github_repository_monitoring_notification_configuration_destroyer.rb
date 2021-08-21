@@ -9,6 +9,7 @@ class GithubRepositoryMonitoringNotificationConfigurationDestroyer < BaseService
     remove_hook_from_github! if github_hook.present?
 
     ActiveRecord::Base.transaction do
+      github_hook_events.each(&:delete) if github_hook_events.any?
       github_hook.delete if github_hook.present?
       @monitoring_config.delete
     end
@@ -35,6 +36,10 @@ class GithubRepositoryMonitoringNotificationConfigurationDestroyer < BaseService
 
   def github_hook
     @github_hook ||= @monitoring_config.github_hook
+  end
+
+  def github_hook_events
+    @github_hook_events ||= github_hook.events
   end
 
 end
