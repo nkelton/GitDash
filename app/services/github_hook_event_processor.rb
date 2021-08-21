@@ -1,8 +1,8 @@
-class GithubWebhookProcessor < BaseService
+class GithubHookEventProcessor < BaseService
 
-  def initialize(webhook_event)
+  def initialize(github_hook_event)
     super()
-    @webhook_inspector = Inspectors::GithubWebhook.new(webhook_event)
+    @webhook_inspector = Inspectors::GithubWebhook.new(github_hook_event)
   end
 
   attr_reader :webhook_inspector
@@ -21,7 +21,7 @@ class GithubWebhookProcessor < BaseService
   end
 
   def process_pull_request
-    GithubPullRequestProcessor.new(webhook_inspector).call
+    GithubPullRequestEventProcessor.new(webhook_inspector).call
   end
 
   def error_and_fail

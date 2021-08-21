@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :github_webhook_event do
+  factory :github_hook_event do
     type { Faker::Music.genre }
     action { Faker::Music.chord }
     metadata { {} }

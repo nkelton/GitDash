@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GithubWebhookEventCreator do
+RSpec.describe GithubHookEventCreator do
   let(:service) { described_class.new(params) }
   let(:params) do
     {
@@ -14,13 +14,13 @@ RSpec.describe GithubWebhookEventCreator do
 
   describe '.call' do
     context 'with valid params' do
-      it 'should create a github webhook event' do
+      it 'should create a github hook event' do
         result = nil
         expect {
           result = service.call
-        }.to change(GithubWebhookEvent, :count).by(1)
+        }.to change(GithubHookEvent, :count).by(1)
         expect(result.status).to eq(BaseService::SUCCESS)
-        expect(result.data).to be_a(GithubWebhookEvent)
+        expect(result.data).to be_a(GithubHookEvent)
       end
     end
   end

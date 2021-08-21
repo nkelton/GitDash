@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GithubWebhookProcessor do
+RSpec.describe GithubHookEventProcessor do
   let(:service) { described_class.new(inspector_spy) }
   let(:inspector_spy) do
     spy.tap do |s|

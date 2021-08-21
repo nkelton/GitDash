@@ -1,6 +1,6 @@
-class GithubPullRequestProcessor < BaseService
+class GithubPullRequestEventProcessor < BaseService
 
-  class GithubPullRequestProcessorError < StandardError; end
+  class GithubPullRequestEventProcessorError < StandardError; end
 
   def initialize(webhook_inspector)
     super()
@@ -14,13 +14,11 @@ class GithubPullRequestProcessor < BaseService
       pull_request_result = GithubPullRequestUpsertor.new(pull_request_attrs).call
       raise_error!(pull_request_result) if pull_request_result.failure?
 
-      webhook_event_result = GithubWebhookEventCreator.new(webhook_event_attrs).call
-      raise_error!(webhook_event_result) if webhook_event_result.failure?
+      github_hook_event_result = GithubHookEventCreator.new(github_hook_event_attrs).call
+      raise_error!(github_hook_event_result) if github_hook_event_result.failure?
     end
-    NotificationSender.new(
-      message: message,
-      user: user
-    ).call
+
+    NotificationSenderJob.perform_later(message: message, user: user)
 
     success
   end
@@ -42,7 +40,7 @@ class GithubPullRequestProcessor < BaseService
     }
   end
 
-  def webhook_event_attrs
+  def github_hook_event_attrs
     {
       metadata: event_metadata,
       action: webhook_inspector.action,
@@ -90,7 +88,7 @@ class GithubPullRequestProcessor < BaseService
   end
 
   def raise_error!(result)
-    raise GithubPullRequestProcessorError, result.errors
+    raise GithubPullRequestEventProcessorError, result.errors
   end
 
 end

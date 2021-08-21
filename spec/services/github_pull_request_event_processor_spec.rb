@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GithubPullRequestProcessor do
+RSpec.describe GithubPullRequestEventProcessor do
   let(:service) { described_class.new(webhook_spy) }
   let(:webhook_spy) do
     spy.tap do |s|
@@ -48,15 +48,20 @@ RSpec.describe GithubPullRequestProcessor do
       let(:upsertor_failure) { false }
       let(:creator_failire) { false }
       let(:github_hook_id) { 123 }
+      let(:user) { create(:user) }
 
       before do
         expect(GithubPullRequestUpsertor).to receive(:new).and_return(upsertor_spy)
-        expect(GithubWebhookEventCreator).to receive(:new).and_return(creator_spy)
+        expect(GithubHookEventCreator).to receive(:new).and_return(creator_spy)
         expect(service).to receive(:github_hook_id).and_return(github_hook_id)
+        expect(service).to receive(:user).and_return(user)
       end
 
       it 'successfully processes github pull requests' do
-        result = service.call
+        result = nil
+        expect {
+          result = service.call
+        }.to have_enqueued_job(NotificationSenderJob)
         expect(result.status).to eq(BaseService::SUCCESS)
         expect(result.data).to be_nil
       end
