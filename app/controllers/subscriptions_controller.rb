@@ -2,14 +2,14 @@
 class SubscriptionsController < ApplicationController
 
   def update
+    binding.pry
     profile.update!(web_push_subscription: subscription_params)
   end
 
   private
 
-  # HARD CODED FOR TESTING.
   def profile
-    @profile ||= Profile.find(7)
+    @profile ||= current_user.profile
   end
 
   def subscription_params
