@@ -14,7 +14,7 @@ class GithubHookCreator < BaseService
     success(
       GithubHook.create!(
         github_id: github_hook.id,
-        github_repository_monitoring_configuration_id: @monitoring_configuration.id,
+        github_repository_id: repository.id,
         metadata: github_hook.to_hash
       )
     )
@@ -57,7 +57,7 @@ class GithubHookCreator < BaseService
   end
 
   def repository
-    @monitoring_configuration.github_repository
+    @repository ||= @monitoring_configuration.github_repository
   end
 
 end

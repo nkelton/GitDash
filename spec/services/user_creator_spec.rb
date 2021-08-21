@@ -6,7 +6,7 @@ RSpec.describe UserCreator do
     {
       name: 'Bob',
       email: 'bob@gmail.com',
-      encrypted_password: 'password'
+      password_digest: 'password'
     }
   end
 

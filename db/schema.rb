@@ -25,13 +25,23 @@ ActiveRecord::Schema.define(version: 2021_08_19_160737) do
     t.index ["user_id"], name: "index_github_accounts_on_user_id"
   end
 
+  create_table "github_hook_events", force: :cascade do |t|
+    t.string "type", default: "", null: false
+    t.string "action", default: "", null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.bigint "github_hook_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["github_hook_id"], name: "index_github_hook_events_on_github_hook_id"
+  end
+
   create_table "github_hooks", force: :cascade do |t|
-    t.bigint "github_repository_monitoring_configuration_id", null: false
+    t.bigint "github_repository_id", null: false
     t.integer "github_id", null: false
     t.jsonb "metadata", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["github_repository_monitoring_configuration_id"], name: "index_gh_hooks_on_gh_monitoring_configuration_id"
+    t.index ["github_repository_id"], name: "index_github_hooks_on_github_repository_id"
   end
 
   create_table "github_pull_requests", force: :cascade do |t|
@@ -63,16 +73,6 @@ ActiveRecord::Schema.define(version: 2021_08_19_160737) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["github_repository_id"], name: "idx_gh_repository_monitoring_config_on_gh_repository_id"
-  end
-
-  create_table "github_webhook_events", force: :cascade do |t|
-    t.string "type", default: "", null: false
-    t.string "action", default: "", null: false
-    t.jsonb "metadata", default: {}, null: false
-    t.bigint "github_hook_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["github_hook_id"], name: "index_github_webhook_events_on_github_hook_id"
   end
 
   create_table "profiles", force: :cascade do |t|

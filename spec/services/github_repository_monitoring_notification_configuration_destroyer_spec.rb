@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe GithubRepositoryMonitoringNotificationConfigurationDestroyer do
   let(:service) { described_class.new(config) }
-  let(:github_hook) { create(:github_hook) }
-  let(:config) { github_hook.github_repository_monitoring_configuration }
+  let(:github_repository) { create(:github_repository) }
+  let(:config) { create(:github_repository_monitoring_configuration, github_repository: github_repository) }
+  let!(:github_hook) { create(:github_hook, github_repository: github_repository) }
 
   describe '.call' do
     context 'with valid params' do

@@ -2,7 +2,7 @@ class GithubWebhooksController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def payload
-    GithubWebhookProcessor.new(webhook_params).call
+    GithubHookEventProcessor.new(webhook_params).call
   end
 
   def webhook_params
