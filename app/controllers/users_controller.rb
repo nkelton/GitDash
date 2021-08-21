@@ -23,6 +23,7 @@ class UsersController < ApplicationController
   def create
     result = UserCreator.new(user_params).call
     @user = result.data
+    session[:user_id] = @user.id.to_s
 
     respond_to do |format|
       if result.success?
