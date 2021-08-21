@@ -6,7 +6,11 @@ class Ability
 
     can :manage, Profile, user: user
     can :manage, GithubAccount, user: user
-    can :manage, GithubRepositoryMonitoringConfiguration, user: user
-    can :manage, GithubRepository, user: user
+
+    github_account = user&.github_account
+    return unless github_account.present?
+
+    can :manage, GithubRepositoryMonitoringConfiguration, github_account: github_account
+    can :manage, GithubRepository, github_account: github_account
   end
 end
