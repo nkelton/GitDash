@@ -9,20 +9,6 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
-// if ('serviceWorker' in navigator) {
-//   console.log('Service Worker is supported');
-//   navigator.serviceWorker.register('../src/serviceworker.js')
-//     .then(function(registration) {
-//       console.log('Successfully registered!', ':^)', registration);
-//       registration.pushManager.subscribe({ userVisibleOnly: true })
-//         .then(function(subscription) {
-//             console.log('endpoint:', subscription.endpoint);
-//         });
-//   }).catch(function(error) {
-//     console.log('Registration failed', ':^(', error);
-//   });
-// }
-
 function urlB64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
   const base64 = (base64String + padding)
