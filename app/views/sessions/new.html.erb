@@ -1,14 +1,23 @@
-<h1>Log In</h1>
-<%= form_for :login do |f| %>
-  <div>
-    <%= f.label :email %>
-    <%= f.text_field :email, autofocus: true %>
-  </div>
-  <div>
-    <%= f.label :password %>
-    <%= f.password_field :password %>
-  </div>
-  <div>
-    <%= f.submit "Log In" %>
-  </div>
-<% end %>
+<div class="git-dash-header">
+  <h1>GitDash</h1>
+  <p>Real Time Notifications for Github</p>
+</div>
+
+<div class="git-dash-body">
+  <%= form_for :login do |f| %>
+    <div id="email-container", class="form-group">
+      <%= f.label :email %>
+      <%= f.text_field :email, autofocus: true, class: "form-control" %>
+    </div>
+    <div id="password-container", class="form-group">
+      <%= f.label :password %>
+      <%= f.password_field :password, class: "form-control" %>
+    </div>
+    <div id="submit-btn-container">
+      <%= f.submit "Log In" , class: "btn btn-success" %>
+    </div>
+    <div>
+    <p>Need to <%= link_to "create an account?", new_user_path, class: "p"  %></p>
+  <% end %>
+</div>
+
