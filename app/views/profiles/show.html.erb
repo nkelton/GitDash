@@ -12,14 +12,14 @@
       <div>
         <%= image_tag @profile.github_account.avatar_url %>
       </div>
-      <div>
-        <ul>
-          <li>Github Account: <%= link_to @profile.github_account.login, @profile.github_account.html_url %> </li>
-          <li> Location: <%= @profile.github_account.location %>
-          <li> Company: <%= @profile.github_account.company %>
-          <li> Bio: <%= @profile.github_account.bio %>
-          <li> <%= link_to 'Edit Profile', edit_profile_path(@profile) %> </li>
-          <li> <%= link_to 'Log Out', logout_path, method: :delete %> </li>
+      <div id="profile-details">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">  <b> Github Account: </b> <%= link_to @profile.github_account.login, @profile.github_account.html_url %> </li>
+          <li class="list-group-item"> <b> Location: </b> <%= @profile.github_account.location %>
+          <li class="list-group-item"> <b> Company: </b> <%= @profile.github_account.company %>
+          <li class="list-group-item"> <b> Bio: </b> <%= @profile.github_account.bio %>
+          <li class="list-group-item"> <%= link_to 'Edit Profile', edit_profile_path(@profile) %> </li>
+          <li class="list-group-item"> <%= link_to 'Log Out', logout_path, method: :delete %> </li>
         </ul>
       </div>
     </div>
