@@ -3,7 +3,11 @@
   <p>A dashboard for Github</p>
 </div>
 <div class="git-dash-body">
-  <%= link_to "Create Account", new_user_path, class: "h4"  %>
-  <%= link_to "Login", login_path, class: "h4" %>
+  <div id="git-dash-create-account">
+    <%= link_to "Create Account", new_user_path, class: "h4"  %>
+  </div>
+  <div id="git-dash-login">
+    <%= link_to "Login", login_path, class: "h4" %>
+  </div>
 </div>
 
