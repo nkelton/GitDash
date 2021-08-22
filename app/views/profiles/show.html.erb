@@ -26,18 +26,20 @@
   </div>
 
   <div class="col-4">
-    <div>
-      <h1> Github Events </h1>
-    </div>
-    <div>
-      <% if @profile.github_account.events.any?  %>
-        <% @profile.github_account.events.order(created_at: :desc).limit(10).each do |event| %>
-          <ul>
-            <li> Event Type: <%= event.type %> </li>
-            <li> Action: <%= event.action %> </li>
-          </ul>
+    <div id="profile-github-events">
+      <div id="profile-github-events-header">
+        <h1> Recent Github Events </h1>
+      </div>
+      <div id="profile-github-events-body">
+        <% if @profile.github_account.events.any?  %>
+          <% @profile.github_account.events.order(created_at: :desc).limit(10).each do |event| %>
+            <ul class="list-group">
+              <li class="list-group-item"> Event Type: <%= event.type %> </li>
+              <li class="list-group-item"> Action: <%= event.action %> </li>
+            </ul>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
     </div>
   </div>
 
