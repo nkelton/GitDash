@@ -12,7 +12,7 @@
 }
 
 #profile-github-events-body ul {
-  padding: 2%;
+  padding: 3%;
   width: 80%;
 }
 
@@ -29,11 +29,12 @@
   margin-left: 2%;
 }
 
-.profile-repositories-header {
-  margin-bottom: 5%;
-}
-
 .profile-repositories-body ul {
   padding: 2%;
   width: 80%;
+}
+
+#profile-github-events-body button {
+  margin-top: 2%;
+  margin-bottom: 2%;
 }
