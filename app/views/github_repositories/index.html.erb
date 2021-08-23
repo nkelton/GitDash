@@ -10,16 +10,14 @@
   </thead>
 
   <tbody>
-    <% @github_repositories.each do |github_repository| %>
+    <% @github_repositories.each do |repo| %>
       <tr>
-        <td><%= link_to 'Show', github_repository %></td>
-        <td><%= link_to 'Edit', edit_github_repository_path(github_repository) %></td>
-        <td><%= link_to 'Destroy', github_repository, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td> <%= repo.name %> </td>
+        <td> Monitoring: <%= repo.active? ? "\u{2705}" : "\u{1F6AB}" %> </td>
+        <td><%= link_to 'Show', repo %></td>
+        <td><%= link_to 'Edit', edit_github_repository_path(repo) %></td>
+        <td><%= link_to 'Destroy', repo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Github Repository', new_github_repository_path %>
