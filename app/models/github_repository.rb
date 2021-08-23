@@ -8,6 +8,9 @@ class GithubRepository < ApplicationRecord
   has_many :github_hook_events, class_name: 'GithubHookEvent', through: :github_hook
   has_many :pull_requests, class_name: 'GithubPullRequest'
 
+  scope :monitoring, -> { where(aasm_state: 'active') }
+  scope :not_monitoring, -> { where(aasm_state: 'inactive')}
+
   validates :github_id, uniqueness: true
   validates :name, presence: true
 

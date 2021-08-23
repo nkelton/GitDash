@@ -7,16 +7,32 @@
   width: 46%;
 }
 
-#profile-github-events {
-  margin-left: -40%;
-}
-
 #profile-github-events-header {
   margin-bottom: 5%;
 }
 
 #profile-github-events-body ul {
   padding: 2%;
-  width: 40%;
+  width: 80%;
 }
 
+.profile-repositories {
+  margin-left: -40%;
+}
+
+#profile-repositories-btn-container {
+  margin-top: 5%;
+}
+
+#profile-repositories-btn-container button {
+  margin-left: 2%;
+}
+
+.profile-repositories-header {
+  margin-bottom: 5%;
+}
+
+.profile-repositories-body ul {
+  padding: 2%;
+  width: 80%;
+}
