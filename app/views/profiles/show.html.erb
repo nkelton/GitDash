@@ -55,11 +55,13 @@
         <h1> Github Events Feed </h1>
       </div>
       <div id="profile-github-events-body">
-        <% if @profile.github_account.events.any?  %>
-          <% @profile.github_account.events.order(created_at: :desc).limit(10).each do |event| %>
+        <% if @profile.github_account.events.any? %>
+          <button class="btn btn-secondary">All Events</button>
+          <% @profile.github_account.events.order(created_at: :desc).limit(5).each do |event| %>
             <ul class="list-group">
               <li class="list-group-item"> Event Type: <%= event.type %> </li>
               <li class="list-group-item"> Action: <%= event.action %> </li>
+              <li class="list-group-item"> At: <%= event.created_at %> </li>
             </ul>
           <% end %>
         <% end %>
