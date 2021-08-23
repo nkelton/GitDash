@@ -3,7 +3,7 @@ class GithubRepositoriesController < ApplicationController
 
   # GET /github_repositories or /github_repositories.json
   def index
-    @github_repositories = GithubRepository.all
+    # TODO: figure out pagination stuff
   end
 
   # GET /github_repositories/1 or /github_repositories/1.json
@@ -65,7 +65,6 @@ class GithubRepositoriesController < ApplicationController
       @github_repository = GithubRepository.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def github_repository_params
       params.require(:github_repository).permit(:aasm_state)
     end
