@@ -17,6 +17,7 @@ class GithubRepositoriesController < ApplicationController
 
   # GET /github_repositories/1/edit
   def edit
+    @monitoring_configuration = @github_repository.monitoring_configuration || GithubRepositoryMonitoringConfiguration.new
   end
 
   # POST /github_repositories or /github_repositories.json

@@ -11,12 +11,25 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label 'Monitor Notifications for this Repository' %>
-    <%= form.check_box :aasm_state, {checked: github_repository.aasm_state == 'active' }, :active, :inactive %>
+  <div id="repository-state">
+    <div class="form-check">
+      <%= form.check_box :aasm_state, {checked: github_repository.aasm_state == 'active', class: 'form-check-input' }, :active, :inactive %>
+      <%= form.label 'Monitor Notifications for this Repository', class: "form-check-label" %>
+    </div>
   </div>
 
+  <% if github_repository.active? %>
+    <div id="repository-monitoring-configuration">
+      <%= form.fields_for :monitoring_configuration do |config| %>
+        <div class="form-group">
+          <%= config.label 'Select the type of notifications you want to receive', class: 'form-label' %>
+          <%= config.select :notification_types, GithubRepositoryMonitoringConfiguration::NOTIFICATION_TYPES, { }, multiple: true, class: 'selectpicker form-control', 'multiple data-selected-text-format': 'count', 'data-width':'fit' %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit 'Update Repository', class:"btn btn-success" %>
   </div>
 <% end %>
