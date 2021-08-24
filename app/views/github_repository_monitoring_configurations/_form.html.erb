@@ -11,16 +11,16 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label 'Select the type of notifications you want to receive' %>
-    <%= form.select :notification_types, GithubRepositoryMonitoringConfiguration::NOTIFICATION_TYPES, {}, multiple: true %>
+  <div class="form-group">
+    <%= form.label 'Select the type of notifications you want to receive', class: 'form-label' %>
+    <%= form.select :notification_types, GithubRepositoryMonitoringConfiguration::NOTIFICATION_TYPES, { }, multiple: true, class: 'selectpicker form-control', 'multiple data-selected-text-format': 'count', 'data-width':'fit' %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.hidden_field :github_repository_id, value: params[:github_repository_id] %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit 'Create Monitoring Configuration', class:"btn btn-success" %>
   </div>
 <% end %>
