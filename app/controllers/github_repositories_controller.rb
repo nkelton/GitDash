@@ -36,7 +36,7 @@ class GithubRepositoriesController < ApplicationController
   end
 
   def update
-    result = GithubRepositoryUpdater.new(@github_repository, github_repository_params).call
+    result = GithubRepositoryUpdater.new(@github_repository, update_params).call
 
     respond_to do |format|
       if result.success?
@@ -64,6 +64,11 @@ class GithubRepositoriesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_github_repository
       @github_repository = GithubRepository.find(params[:id])
+    end
+
+    def update_params
+      params.require(:github_repository)
+            .permit(:aasm_state, monitoring_configuration_attributes: [:id, { notification_types: [] }])
     end
 
     def github_repository_params
