@@ -36,9 +36,15 @@ class GithubRepositoryUpdater < BaseService
     monitoring_config_attrs[:id]&.to_s == monitoring_config&.id&.to_s
   end
 
-  # TODO: Currently this does not actually change the webhook. Needs to update the webhook on github as well...
   def update_config!
-    monitoring_config.update!(notification_types: notification_types)
+    GithubRepositoryMonitoringConfigurationUpdaterJob.perform_later(config_data)
+  end
+
+  def config_data
+    {
+      monitoring_config: monitoring_config,
+      notification_types: notification_types
+    }
   end
 
   def notification_types

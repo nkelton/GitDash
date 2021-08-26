@@ -55,11 +55,11 @@ RSpec.describe GithubRepositoryUpdater do
         let(:monitoring_config) { create(:github_repository_monitoring_configuration, github_repository: github_repository) }
         let(:notification_types) { %w[commit_comment pull_request_review] }
 
-        it 'should update the monitoring config for the github_repository' do
+        it 'should enque job to update monitoring config' do
           result = nil
           expect {
             result = service.call
-          }.to change { monitoring_config.reload.notification_types }.to(notification_types)
+          }.to have_enqueued_job(GithubRepositoryMonitoringConfigurationUpdaterJob)
           expect(result.data.first).to be_falsey
           expect(result.data.second).to be_a(GithubRepository)
           expect(result.status).to eq(BaseService::SUCCESS)
