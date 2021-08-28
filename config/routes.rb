@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :users
   get 'home/index'
   post 'github_webhooks/payload'
+  post 'github_repositories/sync'
   patch '/subscription' => 'subscriptions#update'
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
