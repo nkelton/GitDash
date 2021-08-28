@@ -55,7 +55,7 @@
       </div>
       <div id="profile-github-events-body">
         <% if @profile.github_account.events.any? %>
-          <button class="btn btn-secondary">All Events</button>
+          <button onclick="location.href='/github_hook_events'" class="btn btn-secondary">All Events</button>
           <% @profile.github_account.events.order(created_at: :desc).limit(5).each do |event| %>
             <ul class="list-group">
               <li class="list-group-item"> Event Type: <%= event.type %> </li>

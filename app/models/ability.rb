@@ -12,5 +12,11 @@ class Ability
 
     can :manage, GithubRepositoryMonitoringConfiguration, github_account: github_account
     can :manage, GithubRepository, github_account: github_account
+
+    github_hooks = github_account.github_hooks
+    return unless github_hooks.present?
+
+    can :manage, GithubHookEvent, github_hooks: github_hooks
+
   end
 end

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resource :github_repository_monitoring_configurations
   end
   resources :github_accounts
+  resources :github_hook_events
   resources :users
   get 'home/index'
   post 'github_webhooks/payload'
