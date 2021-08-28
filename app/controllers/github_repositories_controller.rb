@@ -35,6 +35,18 @@ class GithubRepositoriesController < ApplicationController
     end
   end
 
+  def sync
+    result = GithubRepositorySync.new(current_user.github_account).call
+
+    if result.success?
+      flash[:notice] = 'Github repository was successfully updated.'
+    else
+      flash[:warning] = 'Github repository was not updated.'
+    end
+
+    redirect_to action: 'index'
+  end
+
   def update
     result = GithubRepositoryUpdater.new(@github_repository, update_params).call
 
@@ -43,7 +55,6 @@ class GithubRepositoriesController < ApplicationController
         redirect = result.data.first ? new_github_repository_github_repository_monitoring_configurations_path(result.data.second) : result.data.second
         format.html { redirect_to redirect, notice: "Github repository was successfully updated." }
         format.json { render :show, status: :ok, location: @github_repository }
-
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: result.errors, status: :unprocessable_entity }
