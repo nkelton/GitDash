@@ -1,6 +1,9 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Your Github Repositories</h1>
+<div id="profile-repositories-btn-container">
+  <%= button_to "Sync with Github",{ action: "sync" } , { class: 'btn btn-success'} %>
+</div>
 
 <table class="table">
   <thead>

@@ -39,9 +39,9 @@ class GithubRepositoriesController < ApplicationController
     result = GithubRepositorySync.new(current_user.github_account).call
 
     if result.success?
-      flash[:notice] = 'Github repository was successfully updated.'
+      flash[:notice] = 'Github repository was successfully synced.'
     else
-      flash[:warning] = 'Github repository was not updated.'
+      flash[:warning] = 'Github repository was not successfully synced.'
     end
 
     redirect_to action: 'index'
