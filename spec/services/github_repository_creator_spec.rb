@@ -25,6 +25,7 @@ RSpec.describe GithubRepositoryCreator do
           result = service.call
         }.to change { GithubRepository.count }.by(1)
         .and change { github_account.reload.github_repositories.count }.from(0).to(1)
+        .and have_enqueued_job(GithubRepositoryContributorCreatorJob)
         expect(result.status).to eq(BaseService::SUCCESS)
         expect(result.data.length).to eq(1)
       end
