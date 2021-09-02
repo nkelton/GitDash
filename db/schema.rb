@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_19_160737) do
+ActiveRecord::Schema.define(version: 2021_09_02_170330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -65,6 +65,16 @@ ActiveRecord::Schema.define(version: 2021_08_19_160737) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "aasm_state"
     t.index ["github_account_id"], name: "index_github_repositories_on_github_account_id"
+  end
+
+  create_table "github_repository_contributors", force: :cascade do |t|
+    t.string "login", null: false
+    t.integer "github_id", null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.bigint "github_repository_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["github_repository_id"], name: "index_github_repository_contributors_on_github_repository_id"
   end
 
   create_table "github_repository_monitoring_configurations", force: :cascade do |t|
