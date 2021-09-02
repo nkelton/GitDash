@@ -5,16 +5,34 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Type</th>
+      <th scope="col">Name</th>
+      <th scope="col">Notification Type</th>
       <th scope="col">Action</th>
+      <th scope="col">By</th>
+      <th scope="col">Occured</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @github_hook_events.each do |event_hooks| %>
+    <% @github_hook_events.each do |hook_event| %>
       <tr>
-        <td> <%= event_hooks.type %> </td>
-        <td> <%= event_hooks.action %> </td>
+        <td>
+          <a href= <%= hook_event.github_hook.github_repository.html_url %>>
+            <%= hook_event.github_hook.github_repository.name %>
+          </a>
+        </td>
+        <td>
+          <a href= <%= hook_event.object_html_url> %>>
+            <%= hook_event.type %>
+          </a>
+        </td>
+        <td> <%= hook_event.action %> </td>
+        <td>
+          <a href= <%= hook_event.sender_html_url %>>
+            <%= hook_event.sender_login %>
+          </a>
+        </td>
+        <td> <%= hook_event.created_at %> </td>
       </tr>
     <% end %>
   </tbody>
