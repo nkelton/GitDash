@@ -63,7 +63,8 @@ class GithubPullRequestEventProcessor < BaseService
 
   def event_metadata
     {
-      sender: sender_inspector.to_hash
+      sender: sender_inspector.to_hash,
+      object: pull_request_inspector.to_hash
     }
   end
 
