@@ -10,6 +10,7 @@
     <tr>
       <th scope="col">Name</th>
       <th scope="col">Monitoring</th>
+      <th scope="col">Notification Types</th>
       <th scope="col">Actions</th>
     </tr>
   </thead>
@@ -19,6 +20,7 @@
       <tr>
         <td> <%= repo.name %> </td>
         <td> <%= repo.active? ? "\u{2705}" : "\u{1F6AB}" %> </td>
+        <td> <%= repo&.monitoring_configuration&.notification_types&.join(', ') %>
         <td><%= link_to 'Show', repo %>, <%= link_to 'Edit', edit_github_repository_path(repo) %>, <%= link_to 'Destroy', repo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
