@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   resources :users do
     get :swagger, on: :collection
   end
+  resources :sessions do
+    get :swagger, on: :collection
+  end
   get 'home/index'
   post 'github_webhooks/payload'
   post 'github_repositories/sync'
