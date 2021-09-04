@@ -9,7 +9,9 @@ Rails.application.routes.draw do
   end
   resources :github_accounts
   resources :github_hook_events
-  resources :users
+  resources :users do
+    get :swagger, on: :collection
+  end
   get 'home/index'
   post 'github_webhooks/payload'
   post 'github_repositories/sync'
