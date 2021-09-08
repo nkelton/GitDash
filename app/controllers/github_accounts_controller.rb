@@ -19,9 +19,23 @@ class GithubAccountsController < ApplicationController
   def edit
   end
 
-  # POST /github_accounts or /github_accounts.json
+  define :post, :create, ' /github_accounts' do
+    summary 'Create github account.'
+    description <<~MARKDOWN
+      You can use this endpoint to create a GithubAccount record.
+      This resource must always be associated with a User.
+    MARKDOWN
+    request_body do
+      attribute :github_account do
+        attribute :user_id, Types::Params::Integer
+        attribute :token, Types::Params::String
+        attribute? :metadata, Types::Params::Hash
+      end
+    end
+  end
+
   def create
-    result = GithubAccountCreator.new(github_account_params).call
+    result = GithubAccountCreator.new(parsed_body.to_h[:github_account]).call
     @github_account = result.success? ? result.data : GithubAccount.new
 
     respond_to do |format|
@@ -65,6 +79,6 @@ class GithubAccountsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def github_account_params
-      params.require(:github_account).permit(:username, :token, :metadata, :user_id)
+      params.require(:github_account).permit(:token, :metadata, :user_id)
     end
 end
