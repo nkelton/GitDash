@@ -36,7 +36,7 @@ class GithubPullRequestEventProcessor < BaseService
   def filtering_for_sender?
     return false unless contributor.present?
 
-    contributor.id.in? monitoring_configuration.monitoring_contributors.pluck(:id)
+    contributor.id.in? monitoring_configuration.monitoring_contributors.pluck(:github_repository_contributors_id)
   end
 
   def message
@@ -106,7 +106,7 @@ class GithubPullRequestEventProcessor < BaseService
   end
 
   def contributor
-    @contributor ||= GithubRepositoryContributor.find_by(github_id: sender_inspector.id)
+    @contributor ||= GithubRepositoryContributor.find_by(github_id: sender_inspector.id, github_repository_id: github_repository.id)
   end
 
   def monitoring_configuration
