@@ -3,10 +3,24 @@ class SessionsController < ApplicationController
   def new
   end
 
-  def create
-    user = User.find_by(email: params[:login][:email])
+  define :post, :create, ' /sessions' do
+    summary 'Creates a user session.'
+    description <<~MARKDOWN
+      You can use this endpoint to create a session for a User.
+    MARKDOWN
+    request_body do
+      attribute :login do
+        attribute :email, Types::Params::String
+        attribute :password, Types::Params::String
+      end
+    end
+  end
 
-    if user && user&.authenticate(params[:login][:password])
+  def create
+    login = parsed_body.to_h[:login]
+    user = User.find_by(email: login[:email])
+
+    if user && user&.authenticate(login[:password])
       session[:user_id] = user.id.to_s
       redirect_to profile_path(user.profile.id), notice: 'Successfully logged in!'
     else

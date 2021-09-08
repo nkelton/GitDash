@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include SoberSwag::Controller
+
   protect_from_forgery with: :exception
 
   helper_method :current_user

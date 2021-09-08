@@ -19,9 +19,23 @@ class UsersController < ApplicationController
   def edit
   end
 
-  # POST /users or /users.json
+  define :post, :create, ' /users' do
+    summary 'Create user.'
+    description <<~MARKDOWN
+      You can use this endpoint to create a User record.
+    MARKDOWN
+    request_body do
+      attribute :user do
+        attribute :name, Types::Params::String
+        attribute :email, Types::Params::String
+        attribute :password, Types::Params::String
+        attribute :password_confirmation, Types::Params::String
+      end
+    end
+  end
+
   def create
-    result = UserCreator.new(user_params).call
+    result = UserCreator.new(parsed_body.to_h[:user]).call
     @user = result.data
     session[:user_id] = @user.id.to_s
 

@@ -42,6 +42,8 @@ gem 'rpush'
 gem 'webpush'
 # authorization
 gem 'cancancan'
+# api types
+gem 'sober_swag'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

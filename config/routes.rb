@@ -7,9 +7,16 @@ Rails.application.routes.draw do
   resources :github_repositories do
     resource :github_repository_monitoring_configurations
   end
-  resources :github_accounts
+  resources :github_accounts do
+    get :swagger, on: :collection
+  end
   resources :github_hook_events
-  resources :users
+  resources :users do
+    get :swagger, on: :collection
+  end
+  resources :sessions do
+    get :swagger, on: :collection
+  end
   get 'home/index'
   post 'github_webhooks/payload'
   post 'github_repositories/sync'
