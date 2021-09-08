@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 2021_09_07_225126) do
     t.text "notification_types", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["github_repository_id"], name: "idx_gh_repository_monitoring_config_on_gh_repository_id"
+    t.index ["github_repository_id"], name: "idx_gh_repository_monitoring_config_on_gh_repository_id", unique: true
   end
 
   create_table "github_repository_monitoring_contributors", force: :cascade do |t|
