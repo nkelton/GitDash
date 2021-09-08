@@ -36,7 +36,7 @@ class GithubPullRequestEventProcessor < BaseService
   def filtering_for_sender?
     return false unless contributor.present?
 
-    contributer.id.in? monitoring_configuration.monitoring_contributors.pluck(:id)
+    contributor.id.in? monitoring_configuration.monitoring_contributors.pluck(:id)
   end
 
   def message
