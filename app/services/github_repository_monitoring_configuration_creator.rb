@@ -16,13 +16,16 @@ class GithubRepositoryMonitoringConfigurationCreator < BaseService
 
     ActiveRecord::Base.transaction do
       @monitoring_configuration.save!
-      @contributors_to_monitor[:ids].each do |contributor_id|
-        contributor = GithubRepositoryContributor.find_by_id(contributor_id)
-        next unless contributor.present? #skip if the contributor doesn't exist in our db
+      if @contributors_to_monitor.present? && @contributors_to_monitor.key?(:ids)
+        @contributors_to_monitor[:ids].each do |contributor_id|
+          contributor = GithubRepositoryContributor.find_by_id(contributor_id)
+          # skip if the contributor doesn't exist in our db
+          next unless contributor.present?
 
-        @monitoring_configuration.monitoring_contributors.create!(
-          github_repository_contributors_id: contributor.id
-        )
+          @monitoring_configuration.monitoring_contributors.create!(
+            github_repository_contributors_id: contributor.id
+          )
+        end
       end
     end
 
