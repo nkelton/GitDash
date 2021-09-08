@@ -14,21 +14,30 @@ class GithubPullRequestEventProcessor < BaseService
       pull_request_result = GithubPullRequestUpsertor.new(pull_request_attrs).call
       raise_error!(pull_request_result) if pull_request_result.failure?
 
-      github_hook_event_result = GithubHookEventCreator.new(github_hook_event_attrs).call
-      raise_error!(github_hook_event_result) if github_hook_event_result.failure?
-    end
+      if filtering_for_sender?
+        github_hook_event_result = GithubHookEventCreator.new(github_hook_event_attrs).call
+        raise_error!(github_hook_event_result) if github_hook_event_result.failure?
 
-    NotificationSenderJob.perform_later(
-      {
-        message: message,
-        user: user
-      }
-    )
+        NotificationSenderJob.perform_later(
+          {
+            message: message,
+            user: user
+          }
+        )
+      end
+    end
 
     success
   end
 
   private
+
+  # TODO: optimize with some cool scope or something
+  def filtering_for_sender?
+    return false unless contributor.present?
+
+    contributer.id.in? monitoring_configuration.monitoring_contributors.pluck(:id)
+  end
 
   def message
     {
@@ -94,6 +103,14 @@ class GithubPullRequestEventProcessor < BaseService
 
   def sender_inspector
     webhook_inspector.sender
+  end
+
+  def contributor
+    @contributor ||= GithubRepositoryContributor.find_by(github_id: sender_inspector.id)
+  end
+
+  def monitoring_configuration
+    @monitoring_configuration ||= github_repository.monitoring_configuration
   end
 
   def raise_error!(result)
