@@ -31,7 +31,7 @@ class GithubRepositoryMonitoringConfigurationsController < ApplicationController
       attribute :github_repository_monitoring_configuration do
         attribute :github_repository_id, Types::Params::Integer
         attribute :notification_types, Types::Params::Array
-        attribute :contributors_to_monitor do
+        attribute? :contributors_to_monitor do
           attribute :ids, SoberSwag::Types::Array.of(Types::Params::String)
         end
       end
@@ -43,7 +43,7 @@ class GithubRepositoryMonitoringConfigurationsController < ApplicationController
     # filter out empty strings
     create_params.tap do |params|
       params[:notification_types] = params[:notification_types].reject(&:empty?)
-      params[:contributors_to_monitor][:ids] = params[:contributors_to_monitor][:ids].reject(&:empty?)
+      params[:contributors_to_monitor][:ids] = params[:contributors_to_monitor][:ids].reject(&:empty?) if params.key?(:contributors_to_monitor)
     end
 
     result = GithubRepositoryMonitoringConfigurationCreator.new(create_params).call

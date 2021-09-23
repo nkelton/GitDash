@@ -14,9 +14,10 @@ Rails.application.routes.draw do
   resources :users do
     get :swagger, on: :collection
   end
-  resources :sessions do
-    get :swagger, on: :collection
-  end
+  # TODO: rails cant figure out custom login routes with swagger on like this... need to figure out
+  # resources :sessions do
+  #   get :swagger, on: :collection
+  # end
   get 'home/index'
   post 'github_webhooks/payload'
   post 'github_repositories/sync'

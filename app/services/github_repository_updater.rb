@@ -12,7 +12,7 @@ class GithubRepositoryUpdater < BaseService
   def call
     ActiveRecord::Base.transaction do
       update_state! if aasm_state.present?
-      update_config! if monitoring_config_attrs.present? && id_match? && !deactivate?
+      update_config! if (monitoring_config_attrs.present? || contributors_to_monitor_attrs.present?) && !deactivate?
     end
 
     success([@redirect_to_monitoring_notification_config, github_repository.reload])
@@ -30,12 +30,6 @@ class GithubRepositoryUpdater < BaseService
     end
   end
 
-  ##
-  # Ensures that the id of the config matches the repository config... Not ideal but good enough for now
-  def id_match?
-    monitoring_config_attrs[:id]&.to_s == monitoring_config&.id&.to_s
-  end
-
   def update_config!
     GithubRepositoryMonitoringConfigurationUpdaterJob.perform_later(config_data)
   end
@@ -43,7 +37,8 @@ class GithubRepositoryUpdater < BaseService
   def config_data
     {
       monitoring_config: monitoring_config,
-      notification_types: notification_types
+      notification_types: notification_types,
+      contributors_to_monitor_ids: contributors_to_monitor_ids
     }
   end
 
@@ -53,6 +48,14 @@ class GithubRepositoryUpdater < BaseService
 
   def monitoring_config_attrs
     @monitoring_config_attrs ||= github_repo_attrs[:monitoring_configuration_attributes]
+  end
+
+  def contributors_to_monitor_ids
+    @contributors_to_monitor_ids ||= contributors_to_monitor_attrs[:ids].reject(&:empty?)
+  end
+
+  def contributors_to_monitor_attrs
+    @contributors_to_monitor_attrs ||= github_repo_attrs[:contributors_to_monitor]
   end
 
   def monitoring_config
