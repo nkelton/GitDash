@@ -71,7 +71,7 @@ class GithubRepositoriesController < ApplicationController
 
     # filter out empty strings
     update_params.tap do |params|
-      params[:monitoring_configuration_attributes][:notification_types] = params[:monitoring_configuration_attributes][:notification_types].reject(&:empty?)
+      params[:monitoring_configuration_attributes][:notification_types] = params[:monitoring_configuration_attributes][:notification_types].reject(&:empty?) if params.key?(:monitoring_configuration_attributes)
       params[:contributors_to_monitor][:ids] = params[:contributors_to_monitor][:ids].reject(&:empty?) if params.key?(:contributors_to_monitor)
     end
 
