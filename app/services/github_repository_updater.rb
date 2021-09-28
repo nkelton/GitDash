@@ -1,5 +1,6 @@
 class GithubRepositoryUpdater < BaseService
 
+  # TODO: need to add tests for scenarios 7a4a32c8f35db489b236468fe26960194e5842d2
   def initialize(github_repository, github_repo_attrs)
     super()
     @github_repository = github_repository

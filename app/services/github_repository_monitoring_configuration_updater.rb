@@ -12,6 +12,7 @@ class GithubRepositoryMonitoringConfigurationUpdater < BaseService
 
   attr_reader :github_monitoring_configuration, :notification_types, :contributors_to_monitor
 
+  # TODO: need to add tests for scenarios 7a4a32c8f35db489b236468fe26960194e5842d2
   def call
     # TODO: if we dont need to update the hook with github we don't need to udpate here
     updated_hook = update_github_hook!

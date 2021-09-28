@@ -2,6 +2,7 @@ class GithubPullRequestEventProcessor < BaseService
 
   class GithubPullRequestEventProcessorError < StandardError; end
 
+  # TODO: need to add tests for scenarios 80e3e788bad4852635891df3a45aafa1a7b6e4bd
   def initialize(webhook_inspector)
     super()
     @webhook_inspector = webhook_inspector

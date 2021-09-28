@@ -1,5 +1,6 @@
 class GithubRepositoryMonitoringNotificationConfigurationDestroyer < BaseService
 
+  # TODO: need to add tests for scenarios 881a9d38b27a52c9419c407e723600571c3471dc
   def initialize(monitoring_config)
     super()
     @monitoring_config = monitoring_config

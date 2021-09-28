@@ -1,5 +1,6 @@
 class GithubRepositoryMonitoringConfigurationCreator < BaseService
 
+  # TODO: need to add tests for scenarios d0b97157b69945767f1eb4da954f649479a20a5f
   def initialize(monitoring_configuration_params)
     super()
     @monitoring_configuration = GithubRepositoryMonitoringConfiguration.new(
