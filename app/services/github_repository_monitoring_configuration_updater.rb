@@ -12,7 +12,6 @@ class GithubRepositoryMonitoringConfigurationUpdater < BaseService
 
   attr_reader :github_monitoring_configuration, :notification_types, :contributors_to_monitor
 
-  # TODO: need to add tests for scenarios 7a4a32c8f35db489b236468fe26960194e5842d2
   def call
     # TODO: if we dont need to update the hook with github we don't need to udpate here
     updated_hook = update_github_hook!
@@ -120,8 +119,12 @@ class GithubRepositoryMonitoringConfigurationUpdater < BaseService
     @add_monitoring_contributor_ids ||= contributors_to_monitor - monitoring_contributor_ids
   end
 
+  ##
+  # if the ids we need to remove is empty and we are already monitoring contributors, then delete all contrbituors
+  # if the ids we need to remove is empty and there are no contributors being monitorined, then we are only adding contributors and should not remove any
   def remove_monitoring_contributor_ids
-    @remove_monitoring_contributor_ids ||= monitoring_contributor_ids - contributors_to_monitor
+    ids = monitoring_contributor_ids - contributors_to_monitor
+    @remove_monitoring_contributor_ids ||= ids.empty? && monitoring_contributor_ids.any? ? contributors_to_monitor : ids
   end
 
   def monitoring_contributor_ids
