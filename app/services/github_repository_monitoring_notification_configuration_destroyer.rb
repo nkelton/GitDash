@@ -1,13 +1,14 @@
 class GithubRepositoryMonitoringNotificationConfigurationDestroyer < BaseService
 
-  # TODO: need to add tests for scenarios 881a9d38b27a52c9419c407e723600571c3471dc
   def initialize(monitoring_config)
     super()
     @monitoring_config = monitoring_config
   end
 
+  attr_reader :monitoring_config
+
   def call
-    return failure(nil) if @monitoring_config.nil?
+    return failure(nil) unless monitoring_config.present?
 
     remove_hook_from_github! if github_hook.present?
 
@@ -15,7 +16,7 @@ class GithubRepositoryMonitoringNotificationConfigurationDestroyer < BaseService
       github_hook_events.each(&:delete) if github_hook_events.any?
       github_hook.delete if github_hook.present?
       monitoring_contributors.each(&:delete) if monitoring_contributors.any?
-      @monitoring_config.delete
+      monitoring_config.delete
     end
 
     success
@@ -23,7 +24,7 @@ class GithubRepositoryMonitoringNotificationConfigurationDestroyer < BaseService
 
   def remove_hook_from_github!
     client.remove_hook(
-      @monitoring_config.github_repository.github_id,
+      github_repository.github_id,
       github_hook.github_id
     )
   end
@@ -35,11 +36,15 @@ class GithubRepositoryMonitoringNotificationConfigurationDestroyer < BaseService
   end
 
   def access_token
-    @monitoring_config.github_account.token
+    monitoring_config.github_account.token
   end
 
   def github_hook
-    @github_hook ||= @monitoring_config&.github_hook
+    @github_hook ||= monitoring_config.github_hook
+  end
+
+  def github_repository
+    @github_repository ||= monitoring_config.github_repository
   end
 
   def github_hook_events
@@ -47,7 +52,7 @@ class GithubRepositoryMonitoringNotificationConfigurationDestroyer < BaseService
   end
 
   def monitoring_contributors
-    @monitoring_contributors ||= @monitoring_config&.monitoring_contributors
+    @monitoring_contributors ||= monitoring_config.monitoring_contributors
   end
 
 end
