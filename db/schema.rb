@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_19_160737) do
+ActiveRecord::Schema.define(version: 2021_09_07_225126) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -67,12 +67,31 @@ ActiveRecord::Schema.define(version: 2021_08_19_160737) do
     t.index ["github_account_id"], name: "index_github_repositories_on_github_account_id"
   end
 
+  create_table "github_repository_contributors", force: :cascade do |t|
+    t.string "login", null: false
+    t.integer "github_id", null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.bigint "github_repository_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["github_repository_id"], name: "index_github_repository_contributors_on_github_repository_id"
+  end
+
   create_table "github_repository_monitoring_configurations", force: :cascade do |t|
     t.bigint "github_repository_id", null: false
     t.text "notification_types", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["github_repository_id"], name: "idx_gh_repository_monitoring_config_on_gh_repository_id"
+    t.index ["github_repository_id"], name: "idx_gh_repository_monitoring_config_on_gh_repository_id", unique: true
+  end
+
+  create_table "github_repository_monitoring_contributors", force: :cascade do |t|
+    t.bigint "github_repository_monitoring_configuration_id", null: false
+    t.bigint "github_repository_contributors_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["github_repository_contributors_id"], name: "idx_gh_repo_monitoring_contributors_on_gh_contributors_id"
+    t.index ["github_repository_monitoring_configuration_id"], name: "idx_gh_repo_monitoring_contributors_on_gh_monitoring_config_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -164,4 +183,6 @@ ActiveRecord::Schema.define(version: 2021_08_19_160737) do
   add_foreign_key "github_accounts", "users"
   add_foreign_key "github_repositories", "github_accounts"
   add_foreign_key "github_repository_monitoring_configurations", "github_repositories"
+  add_foreign_key "github_repository_monitoring_contributors", "github_repository_contributors", column: "github_repository_contributors_id"
+  add_foreign_key "github_repository_monitoring_contributors", "github_repository_monitoring_configurations"
 end

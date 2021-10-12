@@ -9,12 +9,14 @@ class GithubRepositoryCreator < BaseService
     repositories = retrieve_repositories!
     ActiveRecord::Base.transaction do
       repositories.each do |repo|
-        GithubRepository.create!(
+        github_repo = GithubRepository.create!(
           github_id: repo.id,
           name: repo.name,
           github_account: @github_account,
           metadata: repo.to_hash
         )
+
+        GithubRepositoryContributorCreatorJob.perform_later(github_repo)
       end
 
       return success(@github_account.reload.github_repositories)

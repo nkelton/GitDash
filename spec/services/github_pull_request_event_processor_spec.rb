@@ -43,7 +43,7 @@ RSpec.describe GithubPullRequestEventProcessor do
   end
 
   describe '.call' do
-    context 'when services return success' do
+    context 'when service returns success' do
       let(:failure) { false }
       let(:upsertor_failure) { false }
       let(:creator_failire) { false }
@@ -52,18 +52,36 @@ RSpec.describe GithubPullRequestEventProcessor do
 
       before do
         expect(GithubPullRequestUpsertor).to receive(:new).and_return(upsertor_spy)
-        expect(GithubHookEventCreator).to receive(:new).and_return(creator_spy)
-        expect(service).to receive(:github_hook_id).and_return(github_hook_id)
-        expect(service).to receive(:user).and_return(user)
       end
 
-      it 'successfully processes github pull requests' do
-        result = nil
-        expect {
+      context 'when filtering for sender' do
+        before do
+          expect(GithubHookEventCreator).to receive(:new).and_return(creator_spy)
+          expect(service).to receive(:github_hook_id).and_return(github_hook_id)
+          expect(service).to receive(:user).and_return(user)
+          expect(service).to receive(:filtering_for_sender?).and_return(true)
+        end
+
+        it 'successfully processes github pull requests and enqueues job' do
+          result = nil
+          expect {
+            result = service.call
+          }.to have_enqueued_job(NotificationSenderJob)
+          expect(result.status).to eq(BaseService::SUCCESS)
+          expect(result.data).to be_nil
+        end
+      end
+
+      context 'when not filtering for sender' do
+        before do
+          expect(service).to receive(:filtering_for_sender?).and_return(false)
+        end
+
+        it 'successfully processes github pull requests and does not enqueues job' do
           result = service.call
-        }.to have_enqueued_job(NotificationSenderJob)
-        expect(result.status).to eq(BaseService::SUCCESS)
-        expect(result.data).to be_nil
+          expect(result.status).to eq(BaseService::SUCCESS)
+          expect(result.data).to be_nil
+        end
       end
     end
   end

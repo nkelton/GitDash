@@ -7,6 +7,7 @@ class GithubRepository < ApplicationRecord
   has_one :github_hook
   has_many :github_hook_events, class_name: 'GithubHookEvent', through: :github_hook
   has_many :pull_requests, class_name: 'GithubPullRequest'
+  has_many :contributors, class_name: 'GithubRepositoryContributor'
 
   accepts_nested_attributes_for :monitoring_configuration
 

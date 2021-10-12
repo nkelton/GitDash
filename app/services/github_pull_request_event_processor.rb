@@ -2,6 +2,7 @@ class GithubPullRequestEventProcessor < BaseService
 
   class GithubPullRequestEventProcessorError < StandardError; end
 
+  # TODO: need to add tests for scenarios 80e3e788bad4852635891df3a45aafa1a7b6e4bd
   def initialize(webhook_inspector)
     super()
     @webhook_inspector = webhook_inspector
@@ -14,21 +15,30 @@ class GithubPullRequestEventProcessor < BaseService
       pull_request_result = GithubPullRequestUpsertor.new(pull_request_attrs).call
       raise_error!(pull_request_result) if pull_request_result.failure?
 
-      github_hook_event_result = GithubHookEventCreator.new(github_hook_event_attrs).call
-      raise_error!(github_hook_event_result) if github_hook_event_result.failure?
-    end
+      if filtering_for_sender?
+        github_hook_event_result = GithubHookEventCreator.new(github_hook_event_attrs).call
+        raise_error!(github_hook_event_result) if github_hook_event_result.failure?
 
-    NotificationSenderJob.perform_later(
-      {
-        message: message,
-        user: user
-      }
-    )
+        NotificationSenderJob.perform_later(
+          {
+            message: message,
+            user: user
+          }
+        )
+      end
+    end
 
     success
   end
 
   private
+
+  # TODO: optimize with some cool scope or something
+  def filtering_for_sender?
+    return false unless contributor.present?
+
+    contributor.id.in? monitoring_configuration.monitoring_contributors.pluck(:github_repository_contributors_id)
+  end
 
   def message
     {
@@ -94,6 +104,14 @@ class GithubPullRequestEventProcessor < BaseService
 
   def sender_inspector
     webhook_inspector.sender
+  end
+
+  def contributor
+    @contributor ||= GithubRepositoryContributor.find_by(github_id: sender_inspector.id, github_repository_id: github_repository.id)
+  end
+
+  def monitoring_configuration
+    @monitoring_configuration ||= github_repository.monitoring_configuration
   end
 
   def raise_error!(result)

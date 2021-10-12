@@ -21,13 +21,29 @@ class GithubRepositoryMonitoringConfigurationsController < ApplicationController
     @github_repository = GithubRepository.find(params[:github_repository_id])
   end
 
-  # POST /github_repository_monitoring_configurations or /github_repository_monitoring_configurations.json
+  define :post, :create, ' github_repositories/{id}/github_repository_monitoring_configurations' do
+    summary 'Create a monitoring configuration for a github repository.'
+    description <<~MARKDOWN
+      You can use this endpoint to create a GithubRepositoryMonitoringConfiguration record.
+    MARKDOWN
+    path_params { attribute :github_repository_id, Types::Params::Integer }
+    request_body do
+      attribute :github_repository_monitoring_configuration do
+        attribute :github_repository_id, Types::Params::Integer
+        attribute :notification_types, Types::Params::Array
+        attribute? :contributors_to_monitor do
+          attribute :ids, SoberSwag::Types::Array.of(Types::Params::String)
+        end
+      end
+    end
+  end
   def create
-    create_params = github_repository_monitoring_configuration_params
+    create_params = parsed_body.to_h[:github_repository_monitoring_configuration]
 
     # filter out empty strings
     create_params.tap do |params|
       params[:notification_types] = params[:notification_types].reject(&:empty?)
+      params[:contributors_to_monitor][:ids] = params[:contributors_to_monitor][:ids].reject(&:empty?) if params.key?(:contributors_to_monitor)
     end
 
     result = GithubRepositoryMonitoringConfigurationCreator.new(create_params).call

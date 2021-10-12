@@ -16,6 +16,15 @@
     <%= form.select :notification_types, GithubRepositoryMonitoringConfiguration::NOTIFICATION_TYPES, { }, multiple: true, class: 'selectpicker form-control', 'multiple data-selected-text-format': 'count', 'data-width':'fit' %>
   </div>
 
+  <% if @github_repository.contributors.any? %>
+    <%= form.fields_for :contributors_to_monitor do |contributors_form| %>
+      <div class="form-group">
+        <%= contributors_form.label 'Select the users whom you would like to receive notifications from', class: 'form-label' %>
+        <%= contributors_form.select :ids, options_from_collection_for_select(@github_repository.contributors, 'id', 'login'), {}, multiple: true, class: 'selectpicker form-control', 'multiple data-selected-text-format': 'count', 'data-width':'fit' %>
+      </div>
+    <% end %>
+  <% end %>
+
   <div class="form-group">
     <%= form.hidden_field :github_repository_id, value: params[:github_repository_id] %>
   </div>

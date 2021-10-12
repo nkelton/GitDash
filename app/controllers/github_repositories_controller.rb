@@ -47,14 +47,41 @@ class GithubRepositoriesController < ApplicationController
     redirect_to action: 'index'
   end
 
+  define :patch, :update, ' github_repositories/{id}' do
+    summary 'Create a monitoring configuration for a github repository.'
+    description <<~MARKDOWN
+      You can use this endpoint to create a GithubRepositoryMonitoringConfiguration record.
+    MARKDOWN
+    path_params { attribute :id, Types::Params::Integer }
+    request_body do
+      attribute :github_repository do
+        attribute? :aasm_state, Types::Params::String
+        attribute? :monitoring_configuration_attributes do
+          attribute? :notification_types, Types::Params::Array
+        end
+        attribute? :contributors_to_monitor do
+          attribute :ids, SoberSwag::Types::Array.of(Types::Params::String)
+        end
+      end
+    end
+  end
   def update
-    result = GithubRepositoryUpdater.new(@github_repository, update_params).call
+    update_params = parsed_body.to_h[:github_repository]
+    github_repository = GithubRepository.find(parsed_path.id)
+
+    # filter out empty strings
+    update_params.tap do |params|
+      params[:monitoring_configuration_attributes][:notification_types] = params[:monitoring_configuration_attributes][:notification_types].reject(&:empty?) if params.key?(:monitoring_configuration_attributes)
+      params[:contributors_to_monitor][:ids] = params[:contributors_to_monitor][:ids].reject(&:empty?) if params.key?(:contributors_to_monitor)
+    end
+
+    result = GithubRepositoryUpdater.new(github_repository, update_params).call
 
     respond_to do |format|
       if result.success?
         redirect = result.data.first ? new_github_repository_github_repository_monitoring_configurations_path(result.data.second) : result.data.second
         format.html { redirect_to redirect, notice: "Github repository was successfully updated." }
-        format.json { render :show, status: :ok, location: @github_repository }
+        format.json { render :show, status: :ok, location: github_repository }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: result.errors, status: :unprocessable_entity }
@@ -77,11 +104,7 @@ class GithubRepositoriesController < ApplicationController
       @github_repository = GithubRepository.find(params[:id])
     end
 
-    def update_params
-      params.require(:github_repository)
-            .permit(:aasm_state, monitoring_configuration_attributes: [:id, { notification_types: [] }])
-    end
-
+    # TODO: remove when sober_swag is added to create endpoint
     def github_repository_params
       params.require(:github_repository).permit(:aasm_state)
     end
